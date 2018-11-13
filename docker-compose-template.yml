@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+  bitcoind:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        BINARIES_URL: <some_gitlab_or_github_location>
+        ACCESS_TOKEN: PRIVATE-TOKEN
+    command: -testnet -datadir=/bitcoin -listen -txindex
+    volumes:
+      ## /bitcoin in container should eventually contain the contents of folder .bitcoin
+      - <path/to/and/including/.bitcoin>:/bitcoin
+    ports:
+      # - "8332:8332"
+      # - "8333:8333"
+      - "18332:18332"
+      # - "18333:18333"
+    environment:
+      - USER_ID=1000
+      - RPC_USER=local
+      - RPC_PASSWD=local
+      - RPC_ALLOW_IP=0.0.0.0/0
+      - RPC_BIND=0.0.0.0
+      - RPC_PORT=18332
+      - P2P_PORT=18333
+      - MAX_CONNECTIONS=125
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
+        max-file: "3"
