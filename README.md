@@ -1,5 +1,5 @@
 ## Supported tags and respective `Dockerfile` links
-<!-- * `latest` ([Dockerfile](https://github.com/XMRto/bitcoin/blob/master/Dockerfile)) -->
+* `latest` ([Dockerfile](https://github.com/XMRto/bitcoin/blob/master/Dockerfile))
 
 ---
 
