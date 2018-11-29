@@ -1,3 +1,13 @@
 #!/bin/bash
 
 docker build --build-arg ACCESS_TOKEN=$ACCESS_TOKEN --build-arg BINARIES_URL=$BINARIES_URL -t $IMAGE_NAME .
+
+# some kind of test
+docker run --rm --entrypoint='' $IMAGE_NAME  bitcoind --version
+ERROR_BITCOIND="$?"
+
+# none of them should exit with 1
+if [ "$ERROR_BITCOIND" -eq 1 ]; then
+    echo "error code bitcoind: $ERROR_BITCOIND"
+    exit 1
+fi
