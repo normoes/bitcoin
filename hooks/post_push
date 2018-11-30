@@ -1,11 +1,13 @@
 #!/bin/bash
 
-if [ "$RELEASE_BRANCH" = "$SOURCE_BRANCH" ]; then
+if [ "$RELEASE_BRANCH" == "$SOURCE_BRANCH" ]; then
+  echo "Nothing yet."
   #curl -X POST \
   #     -F token=$BITCOIN_TESTNET_TOKEN \
   #     -F ref=$SOURCE_BRANCH \
   #     $BITCOIN_TESTNET_URL
-elif [ "$PATCHED_BRANCH" = "$SOURCE_BRANCH" ]; then
+elif [ "$PATCHED_BRANCH" == "$SOURCE_BRANCH" ]; then
+  echo "Nothing yet."
   #curl -X POST \
   #     -F token=$BITCOIN_DAEMON_TOKEN \
   #     -F ref=$BRANCH_MAIN \
