@@ -1,21 +1,19 @@
 #!/bin/bash
 
-if [ "$RELEASE_BRANCH" == "$SOURCE_BRANCH" ]; then
-  echo "Nothing yet."
-  #curl -X POST \
-  #     -F token=$BITCOIN_TESTNET_TOKEN \
-  #     -F ref=$SOURCE_BRANCH \
-  #     $BITCOIN_TESTNET_URL
-elif [ "$PATCHED_BRANCH" == "$SOURCE_BRANCH" ]; then
-  echo "Nothing yet."
+#if [ "$RELEASE_BRANCH" == "$SOURCE_BRANCH" ]; then
+#  #curl -X POST \
+#  #     -F token=$BITCOIN_TESTNET_TOKEN \
+#  #     -F ref=$SOURCE_BRANCH \
+#  #     $BITCOIN_TESTNET_URL
+if [ "$PATCHED_BRANCH" == "$SOURCE_BRANCH" ]; then
   #curl -X POST \
   #     -F token=$BITCOIN_DAEMON_TOKEN \
   #     -F ref=$BRANCH_MAIN \
   #     $BITCOIN_DAEMON_URL
-  #curl -X POST \
-  #     -F token=$BITCOIN_DAEMON_TOKEN \
-  #     -F ref=$BRANCH_STAGE \
-  #     $BITCOIN_DAEMON_URL
+  curl -X POST \
+       -F token=$BITCOIN_TESTNET_TOKEN \
+       -F ref=$BRANCH_TEST \
+       $BITCOIN_TESTNET_URL
 else
   # other branches are also pushed as most_recent_tag
   docker tag $IMAGE_NAME $DOCKER_REPO:$MOST_RECENT_TAG_NAME
