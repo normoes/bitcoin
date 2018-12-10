@@ -4,7 +4,7 @@ OPTIONS="-server -printtoconsole -logtimestamps -port=$P2P_PORT -maxconnections=
 
 BITCOIND="bitcoind $@ $OPTIONS"
 
-#3 bitcoind
+## bitcoind
 if [[ "${1:0:1}" = '-' ]]  || [[ -z "$@" ]]; then
   set -- $BITCOIND
 ## bitcoin-cli
