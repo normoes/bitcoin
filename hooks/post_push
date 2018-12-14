@@ -12,7 +12,7 @@ elif [ "$PATCHED_BRANCH" == "$SOURCE_BRANCH" ]; then
        $BITCOIN_TESTNET_URL
 else
   BRANCH=$(curl -s https://api.github.com/repos/bitcoin/bitcoin/tags | grep -i name | awk 'NR==1{print $2}' | tr -d "\",")
-  if [ zn "$BRANCH" ];then
+  if [ -z "$BRANCH" ];then
     echo "no branch could be found."
     exit 1
   fi
