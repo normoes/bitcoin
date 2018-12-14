@@ -11,8 +11,8 @@ RUN apt-get update -qq && apt-get -y install --no-install-recommends \
 ARG BINARIES_URL
 ARG ACCESS_TOKEN
 
-RUN curl --header "PRIVATE-TOKEN: $ACCESS_TOKEN" $BINARIES_URL/bitcoin-cli --output /data/bitcoin-cli \
-    && curl --header "PRIVATE-TOKEN: $ACCESS_TOKEN" $BINARIES_URL/bitcoind --output /data/bitcoind \
+RUN curl --header "PRIVATE-TOKEN: $ACCESS_TOKEN" $BINARIES_URL/bitcoin-cli/raw?ref=master --output /data/bitcoin-cli \
+    && curl --header "PRIVATE-TOKEN: $ACCESS_TOKEN" $BINARIES_URL/bitcoind/raw?ref=master --output /data/bitcoind \
     && chmod 755 /data/bitcoind \
     && chmod 755 /data/bitcoin-cli
 
@@ -41,6 +41,11 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 WORKDIR /bitcoin
+
+RUN bitcoind --version > version.txt \
+    && cat /etc/os-release > system.txt \
+    && ldd $(command -v bitcoind) > dependencies.txt
+
 VOLUME ["/bitcoin"]
 
 ENV USER_ID 1000
