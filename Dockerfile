@@ -8,14 +8,18 @@ RUN apt-get update -qq && apt-get -y install --no-install-recommends \
         git \
         curl
 
+ARG PROTOCOL
 ARG BINARIES_URL
-ARG ACCESS_TOKEN
+# ARG ACCESS_TOKEN
+ARG DEPLOY_TOKEN
+ARG DEPLOY_USER
 
-RUN curl --header "PRIVATE-TOKEN: $ACCESS_TOKEN" $BINARIES_URL/bitcoin-cli/raw?ref=master --output /data/bitcoin-cli \
-    && curl --header "PRIVATE-TOKEN: $ACCESS_TOKEN" $BINARIES_URL/bitcoind/raw?ref=master --output /data/bitcoind \
+RUN git clone --depth 1 $PROTOCOL$DEPLOY_USER:$DEPLOY_TOKEN@$BINARIES_URL bitcoin \
+    && cp bitcoin/bitcoind /data \
+    && cp bitcoin/bitcoin-cli /data \
     && chmod 755 /data/bitcoind \
     && chmod 755 /data/bitcoin-cli
-
+ 
 RUN cd /data \
     && git clone https://github.com/ncopa/su-exec.git su-exec-clone \
     && cd su-exec-clone \
@@ -30,7 +34,8 @@ RUN apt-get purge -y \
     && apt-get autoremove --purge -y \
     && apt-get clean \
     && rm -rf /var/tmp/* /tmp/* /var/lib/apt \
-    && rm -rf /data/su-exec-clone
+    && rm -rf /data/su-exec-clone \
+    && rm -rf /data/bitcoin
 
 FROM debian:stable-slim
 COPY --from=builder /data/bitcoind /usr/local/bin/
@@ -42,9 +47,9 @@ RUN chmod +x /entrypoint.sh
 
 WORKDIR /bitcoin
 
-RUN bitcoind --version > version.txt \
-    && cat /etc/os-release > system.txt \
-    && ldd $(command -v bitcoind) > dependencies.txt
+RUN bitcoind --version > /version.txt \
+    && cat /etc/os-release > /system.txt \
+    && ldd $(command -v bitcoind) > /dependencies.txt
 
 VOLUME ["/bitcoin"]
 
