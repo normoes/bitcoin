@@ -12,8 +12,6 @@ elif [[ "$1" = bitcoin-cli* ]]; then
   set -- "$@"
 fi
 
-echo "$@"
-
 # allow the container to be started with `--user
 if [ "$(id -u)" = 0 ]; then
   # USER_ID defaults to 1000 (Dockerfile)
