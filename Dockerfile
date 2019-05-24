@@ -97,9 +97,8 @@ RUN echo "\e[32mcloning: $PROJECT_URL on branch: $BRANCH\e[39m" \
     && rm -rf /var/tmp/* /tmp/* /var/lib/apt/* > /dev/null
 
 FROM debian:stable-slim
-COPY --from=builder /data/monerod /usr/local/bin/
-COPY --from=builder /data/monero-wallet-rpc /usr/local/bin/
-COPY --from=builder /data/monero-wallet-cli /usr/local/bin/
+COPY --from=builder /data/bitcoind /usr/local/bin/
+COPY --from=builder /data/bitcoin-cli /usr/local/bin/
 COPY --from=builder /data/su-exec /usr/local/bin/
 
 RUN apt-get autoremove --purge -yqq > /dev/null \
