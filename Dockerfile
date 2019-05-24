@@ -36,7 +36,7 @@ RUN apt-get update -qq && apt-get --no-install-recommends -yqq install \
     && git clone --branch ${SUEXEC_VERSION} --single-branch --depth 1 https://github.com/ncopa/su-exec.git su-exec.git > /dev/null \
     && cd su-exec.git || exit 1 \
     && test `git rev-parse HEAD` = ${SUEXEC_HASH} || exit 1 \
-    && make -j4 > /dev/null \
+    && make -j2 > /dev/null \
     && cp su-exec /data \
     && cd /data || exit 1 \
     && rm -rf /data/su-exec.git
@@ -61,10 +61,10 @@ RUN echo "\e[32mcloning: $PROJECT_URL on branch: $BRANCH\e[39m" \
     && ldconfig > /dev/null \
     && ./autogen.sh > /dev/null \
     && cd depends || exit 1 \
-    && make -j4 HOST=x86_64-pc-linux-gnu NO_QT=1 NO_UPNP=1 > /dev/null \
+    && make -j2 HOST=x86_64-pc-linux-gnu NO_QT=1 NO_UPNP=1 > /dev/null \
     && cd .. || exit 1 \
     && ./configure --prefix=${PWD}/depends/x86_64-pc-linux-gnu --enable-glibc-back-compat LDFLAGS="$LDFLAGS" --without-miniupnpc --enable-reduce-exports --disable-bench --without-gui > /dev/null \
-    && make -j4 HOST=x86_64-pc-linux-gnu NO_QT=1 NO_UPNP=1 > /dev/null \
+    && make -j2 HOST=x86_64-pc-linux-gnu NO_QT=1 NO_UPNP=1 > /dev/null \
     && echo "\e[32mcopy and clean up\e[39m" \
     && mv /data/bitcoin.git/src/bitcoind /data/ \
     && chmod +x /data/bitcoind \
