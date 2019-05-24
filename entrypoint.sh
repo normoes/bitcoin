@@ -4,15 +4,13 @@ OPTIONS="-server -printtoconsole -logtimestamps -port=$P2P_PORT -maxconnections=
 
 BITCOIND="bitcoind $@ $OPTIONS"
 
-#3 bitcoind
+## bitcoind
 if [[ "${1:0:1}" = '-' ]]  || [[ -z "$@" ]]; then
   set -- $BITCOIND
 ## bitcoin-cli
 elif [[ "$1" = bitcoin-cli* ]]; then
   set -- "$@"
 fi
-
-echo "$@"
 
 # allow the container to be started with `--user
 if [ "$(id -u)" = 0 ]; then
