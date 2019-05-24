@@ -1,21 +1,21 @@
 #!/bin/bash
 
-if [ "$RELEASE_BRANCH" == "$SOURCE_BRANCH" ]; then
-  curl -X POST \
-       -F token=$BITCOIN_TESTNET_TOKEN \
-       -F ref=$SOURCE_BRANCH \
-       $BITCOIN_TESTNET_URL
-elif [ "$PATCHED_BRANCH" == "$SOURCE_BRANCH" ]; then
-  curl -X POST \
-       -F token=$BITCOIN_TESTNET_TOKEN \
-       -F ref=$BRANCH_TEST \
-       $BITCOIN_TESTNET_URL
-else
-  BRANCH=$(curl -s https://api.github.com/repos/bitcoin/bitcoin/tags | grep -i name | awk 'NR==1{print $2}' | tr -d "\",")
-  if [ -z "$BRANCH" ];then
-    echo "no branch could be found."
-    exit 1
-  fi
-  docker tag $IMAGE_NAME $DOCKER_REPO:$BRANCH
-  docker push $DOCKER_REPO:$BRANCH
-fi
+# if [ "$RELEASE_BRANCH" == "$SOURCE_BRANCH" ]; then
+#   curl -X POST \
+#        -F token=$BITCOIN_TESTNET_TOKEN \
+#        -F ref=$SOURCE_BRANCH \
+#        $BITCOIN_TESTNET_URL
+# elif [ "$PATCHED_BRANCH" == "$SOURCE_BRANCH" ]; then
+#   curl -X POST \
+#        -F token=$BITCOIN_TESTNET_TOKEN \
+#        -F ref=$BRANCH_TEST \
+#        $BITCOIN_TESTNET_URL
+# else
+#   BRANCH=$(curl -s https://api.github.com/repos/bitcoin/bitcoin/tags | grep -i name | awk 'NR==1{print $2}' | tr -d "\",")
+#   if [ -z "$BRANCH" ];then
+#     echo "no branch could be found."
+#     exit 1
+#   fi
+#   docker tag $IMAGE_NAME $DOCKER_REPO:$BRANCH
+#   docker push $DOCKER_REPO:$BRANCH
+# fi

@@ -1,3 +1,41 @@
 #!/bin/bash
 
-docker build --pull --build-arg PROTOCOL=$PROTOCOL --build-arg DEPLOY_USER=$DEPLOY_USER --build-arg DEPLOY_TOKEN=$DEPLOY_TOKEN --build-arg BINARIES_URL=$BINARIES_URL -t $IMAGE_NAME .
+BRANCH="master"
+if [ -z "$BRANCH" ];then
+  echo "no branch could be found."
+  exit 1
+fi
+
+docker pull $DOCKER_REPO:dependencies1 || true
+
+docker build \
+  --pull \
+  --target dependencies1 \
+  --cache-from $DOCKER_REPO:dependencies1 \
+  -f ./Dockerfile \
+  -t $DOCKER_REPO:dependencies1 .
+
+docker push $DOCKER_REPO:dependencies1
+
+docker pull $DOCKER_REPO:builder || true
+
+docker build \
+  --pull \
+  --target builder \
+  --cache-from $DOCKER_REPO:dependencies1 \
+  --cache-from $DOCKER_REPO:builder \
+  --build-arg BRANCH=$BRANCH \
+  -f ./Dockerfile \
+  -t $DOCKER_REPO:builder .
+
+docker push $DOCKER_REPO:builder
+docker pull $IMAGE_NAME || true
+
+docker build \
+  --pull \
+  --cache-from $DOCKER_REPO:dependencies1 \
+  --cache-from $DOCKER_REPO:builder \
+  --cache-from $IMAGE_NAME \
+  --build-arg BRANCH=$BRANCH \
+  -f ./Dockerfile \
+  -t $IMAGE_NAME .
