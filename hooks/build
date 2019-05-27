@@ -1,10 +1,10 @@
 #!/bin/bash
 
-BRANCH="master"
-if [ -z "$BRANCH" ];then
-  echo "no branch could be found."
-  exit 1
-fi
+# BRANCH="master"
+# if [ -z "$BRANCH" ];then
+#   echo "no branch could be found."
+#   exit 1
+# fi
 
 docker pull $DOCKER_REPO:dependencies1 || true
 
@@ -24,7 +24,7 @@ docker build \
   --target builder \
   --cache-from $DOCKER_REPO:dependencies1 \
   --cache-from $DOCKER_REPO:builder \
-  --build-arg BRANCH=$BRANCH \
+  --build-arg BRANCH=$DOCKER_TAG \
   -f ./Dockerfile \
   -t $DOCKER_REPO:builder .
 
@@ -36,6 +36,6 @@ docker build \
   --cache-from $DOCKER_REPO:dependencies1 \
   --cache-from $DOCKER_REPO:builder \
   --cache-from $IMAGE_NAME \
-  --build-arg BRANCH=$BRANCH \
+  --build-arg BRANCH=$DOCKER_TAG \
   -f ./Dockerfile \
   -t $IMAGE_NAME .
