@@ -28,7 +28,7 @@ RUN apt-get update -qq && apt-get --no-install-recommends -yqq install \
         bsdmainutils \
         python3 \
         build-essential \
-        libtool \
+        # libtool \
         libprotobuf-dev protobuf-compiler \
         unzip > /dev/null \
     && cd /data || exit 1 \
@@ -113,6 +113,7 @@ WORKDIR /bitcoin
 
 RUN bitcoind --version > /version.txt \
     && cat /etc/os-release > /system.txt \
+    && cat /proc/version >> /system.txt \
     && ldd $(command -v bitcoind) > /dependencies.txt
 
 VOLUME ["/bitcoin"]

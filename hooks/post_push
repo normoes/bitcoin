@@ -19,3 +19,8 @@
 #   docker tag $IMAGE_NAME $DOCKER_REPO:$BRANCH
 #   docker push $DOCKER_REPO:$BRANCH
 # fi
+MOST_RECENT_TAG=$(curl -s https://api.github.com/repos/bitcoin/bitcoin/tags | grep -i name | awk 'NR==1{print $2}' | tr -d "\",")
+if [ "$MOST_RECENT_TAG" == "$DOCKER_TAG" ]; then
+  docker tag $IMAGE_NAME $DOCKER_REPO:most_recent_tag
+  docker push $DOCKER_REPO:most_recent_tag
+fi
