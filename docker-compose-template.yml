@@ -6,10 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        PROTOCOL: https://
-        BINARIES_URL: <some_gitlab_or_github_location>
-        DEPLOY_TOKEN: DEPLOY-TOKEN
-        DEPLOY_USER: DEPLOY-USER
+        BRANCH: v0.19.0.1
     command: -testnet -datadir=/bitcoin -listen -txindex
     volumes:
       ## /bitcoin in container should eventually contain the contents of folder .bitcoin
@@ -28,6 +25,10 @@ services:
       - RPC_PORT=18332
       - P2P_PORT=18333
       - MAX_CONNECTIONS=125
+      # # Either rpcuser and rpcpassword or rpcauth
+      # - RPC_USER=local
+      # - RPC_PASSWD=local
+      - RPC_AUTH=<see_https://github.com/bitcoin/bitcoin/tree/master/share/rpcauth>
     restart: unless-stopped
     logging:
       driver: "json-file"
