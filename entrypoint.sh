@@ -1,17 +1,13 @@
 #!/bin/bash
 
 # rpc login options
-echo "$RPC_LOGIN"
 if [ -n "$RPC_USER" -a -n "$RPC_PASSWD" ]; then
     RPC_LOGIN="-rpcuser=$RPC_USER -rpcpassword=$RPC_PASSWD"
 elif [ -n "$RPC_AUTH" ]; then
     RPC_LOGIN="-rpcauth=$RPC_AUTH"
 fi
 
-echo "$RPC_LOGIN"
-
 OPTIONS="-server -printtoconsole -logtimestamps -port=$P2P_PORT -maxconnections=$MAX_CONNECTIONS -rpcbind=$RPC_BIND -rpcport=$RPC_PORT $RPC_LOGIN -rpcallowip=$RPC_ALLOW_IP"
-echo "$OPTIONS"
 
 BITCOIND="bitcoind $@ $OPTIONS"
 
