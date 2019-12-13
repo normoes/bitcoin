@@ -7,7 +7,21 @@ elif [ -n "$RPC_AUTH" ]; then
     RPC_LOGIN="-rpcauth=$RPC_AUTH"
 fi
 
-OPTIONS="-server -printtoconsole -logtimestamps -port=$P2P_PORT -maxconnections=$MAX_CONNECTIONS -rpcbind=$RPC_BIND -rpcport=$RPC_PORT $RPC_LOGIN -rpcallowip=$RPC_ALLOW_IP"
+# if [ -n "$RPC_USER" -a -n "$RPC_AUTH_KEY" ]; then
+#     RPC_LOGIN="-rpcauth=$RPC_USER:$RPC_AUTH_KEY"
+# elif [ -n "$RPC_USER" -a -n "$RPC_PASSWD" ]; then
+#     RPC_LOGIN="-rpcuser=$RPC_USER -rpcpassword=$RPC_PASSWD"
+# fi
+
+# zeromq options
+if [ -n "$ZMQ_PUB_RAW_BLOCK_IP" -a -n "$ZMQ_PUB_RAW_BLOCK_PORT" ]; then
+    ZMQ_PUB_RAW_BLOCK="-zmqpubrawblock=tcp://$ZMQ_PUB_RAW_BLOCK_IP:$ZMQ_PUB_RAW_BLOCK_PORT"
+fi
+if [ -n "$ZMQ_PUB_RAW_TX_IP" -a -n "$ZMQ_PUB_RAW_TX_PORT" ]; then
+    ZMQ_PUB_RAW_TX="-zmqpubrawtx=tcp://$ZMQ_PUB_RAW_TX_IP:$ZMQ_PUB_RAW_TX_PORT"
+fi
+
+OPTIONS="-server -printtoconsole -logtimestamps -port=$P2P_PORT -maxconnections=$MAX_CONNECTIONS -rpcbind=$RPC_BIND -rpcport=$RPC_PORT $RPC_LOGIN -rpcallowip=$RPC_ALLOW_IP $ZMQ_PUB_RAW_BLOCK $ZMQ_PUB_RAW_TX"
 
 BITCOIND="bitcoind $@ $OPTIONS"
 

@@ -28,7 +28,6 @@ RUN apt-get update -qq && apt-get --no-install-recommends -yqq install \
         bsdmainutils \
         python3 \
         build-essential \
-        # libtool \
         libprotobuf-dev protobuf-compiler \
         unzip > /dev/null \
     && cd /data || exit 1 \
@@ -89,7 +88,6 @@ RUN echo "\e[32mcloning: $PROJECT_URL on branch: $BRANCH\e[39m" \
         bsdmainutils \
         python3 \
         build-essential \
-        libtool \
         libprotobuf-dev protobuf-compiler \
         unzip > /dev/null \
     && apt-get autoremove --purge -yqq > /dev/null \
@@ -125,9 +123,16 @@ ENV DAEMON_PORT 28081
 ENV RPC_USER ""
 ENV RPC_PASSWD ""
 ENV RPC_LOGIN ""
+ENV RPC_AUTH_KEY ""
 ENV RPC_BIND_IP 0.0.0.0
-ENV RPC_BIND_PORT 28081
+ENV RPC_BIND_PORT 18332
 ENV P2P_BIND_IP 0.0.0.0
-ENV P2P_BIND_PORT 28080
+ENV P2P_BIND_PORT 18333
+ENV ZMQ_PUB_RAW_BLOCK_IP=0.0.0.0
+ENV ZMQ_PUB_RAW_BLOCK_PORT=28332
+ENV ZMQ_PUB_RAW_BLOCK=""
+ENV ZMQ_PUB_RAW_TX_IP=0.0.0.0
+ENV ZMQ_PUB_RAW_TX_PORT=28333
+ENV ZMQ_PUB_RAW_TX=""
 
 ENTRYPOINT ["/entrypoint.sh"]
