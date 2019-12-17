@@ -7,12 +7,6 @@ elif [ -n "$RPC_AUTH" ]; then
     RPC_LOGIN="-rpcauth=$RPC_AUTH"
 fi
 
-# if [ -n "$RPC_USER" -a -n "$RPC_AUTH_KEY" ]; then
-#     RPC_LOGIN="-rpcauth=$RPC_USER:$RPC_AUTH_KEY"
-# elif [ -n "$RPC_USER" -a -n "$RPC_PASSWD" ]; then
-#     RPC_LOGIN="-rpcuser=$RPC_USER -rpcpassword=$RPC_PASSWD"
-# fi
-
 # zeromq options
 if [ -n "$ZMQ_PUB_RAW_BLOCK_IP" -a -n "$ZMQ_PUB_RAW_BLOCK_PORT" ]; then
     ZMQ_PUB_RAW_BLOCK="-zmqpubrawblock=tcp://$ZMQ_PUB_RAW_BLOCK_IP:$ZMQ_PUB_RAW_BLOCK_PORT"
