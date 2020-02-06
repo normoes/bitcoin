@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # rpc login options
-if [ -n "$RPC_USER" -a -n "$RPC_PASSWD" ]; then
-    RPC_LOGIN="-rpcuser=$RPC_USER -rpcpassword=$RPC_PASSWD"
-elif [ -n "$RPC_AUTH" ]; then
+if [ -n "$RPC_AUTH" ]; then
     RPC_LOGIN="-rpcauth=$RPC_AUTH"
+elif [ -n "$RPC_USER" -a -n "$RPC_PASSWD" ]; then
+    RPC_LOGIN="-rpcuser=$RPC_USER -rpcpassword=$RPC_PASSWD"
 fi
 
 # zeromq options
