@@ -47,6 +47,7 @@ WORKDIR /data
 ARG PROJECT_URL=https://github.com/bitcoin/bitcoin.git
 ARG BRANCH=master
 ARG BUILD_PATH=/bitcoin.git/build/release/bin
+ARG BUILD_BRANCH=$BRANCH
 
 ENV BASE_DIR /usr/local
 
@@ -55,8 +56,10 @@ ENV CXXFLAGS '-fPIC -O2 -g'
 ENV LDFLAGS '-static-libstdc++'
 
 RUN echo "\e[32mcloning: $PROJECT_URL on branch: $BRANCH\e[39m" \
-    && git clone --branch "$BRANCH" --single-branch --recursive $PROJECT_URL bitcoin.git > /dev/null \
+    && git clone -n --branch "$BRANCH" --single-branch --recursive $PROJECT_URL bitcoin.git > /dev/null \
     && cd bitcoin.git || exit 1 \
+    && git checkout "$BUILD_BRANCH" \
+    && git submodule update --init --force \
     && echo "\e[32mbuilding static binaries\e[39m" \
     && ldconfig > /dev/null \
     && ./autogen.sh > /dev/null \

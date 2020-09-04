@@ -7,6 +7,9 @@
 if [ "$SOURCE_BRANCH" = "most_recent_tag" ]; then
     MOST_RECENT_TAG=$(curl -s https://api.github.com/repos/bitcoin/bitcoin/tags | grep -i name | awk 'NR==1{print $2}' | tr -d "\",")
     export SOURCE_BRANCH="$MOST_RECENT_TAG"
+elif [ "$SOURCE_BRANCH" = "master" ]; then
+    MASTER_COMMIT_SHA=$(curl -s https://api.github.com/repos/bitcoin/bitcoin/branches/master  | grep -i sha | awk 'NR==1{print $2}' | tr -d "\",")
+    export BUILD_BRANCH="$MASTER_COMMIT_SHA"
 fi
 
 docker pull $DOCKER_REPO:dependencies1 || true
