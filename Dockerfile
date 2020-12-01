@@ -120,6 +120,11 @@ RUN bitcoind --version > /version.txt \
 
 VOLUME ["/bitcoin"]
 
+EXPOSE 8332
+EXPOSE 8333
+EXPOSE 18332
+EXPOSE 18333
+
 ENV USER_ID 1000
 ENV LOG_LEVEL 0
 ENV RPC_USER ""

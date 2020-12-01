@@ -27,3 +27,17 @@ A few more words about `-rpcauth`:
   - Additionally you will get a `<password>` which is to be used to configure the clients connecting to the bitcoind RPC.
     + The `<password>` is used to create `<password_hmac>`.
 
+---
+
+Not specifying a host port in `-p <host_port>:<container_port>` docker will automatically assign a free port on the host.
+
+```
+docker run --rm -d -p 8332 -v <path/to/and/including/wallets>:/bitcoin xmrto/bitcoin -datadir=/bitcoin
+```
+
+However, this only works for the common Bitcoin network ports:
+* `8332`
+* `8333`
+* `18332`
+* `18333`
+
